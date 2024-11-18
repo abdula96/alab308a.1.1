@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prime Numbers</title>
+    <style>
+      #prime-numbers {
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prime Numbers Display</h1>
+    <div id="prime-numbers"></div>
+
+    <script>
+      // Cache the HTML element where prime numbers will be displayed
+      const primeNumbersDiv = document.getElementById("prime-numbers");
+
+      // Check if a number is prime
+      const isPrime = (num) => {
+        if (num <= 1) return false;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+          if (num % i === 0) return false;
+        }
+        return true;
+      };
+
+      // Function to add prime numbers between 1 and n to the HTML element
+      const displayPrimes = (n) => {
+        let currentNumber = 2; // Start checking from 2
+        let primeNumbers = []; // To store the prime numbers
+
+        // Helper function for deferred execution
+        const addPrimeDeferred = () => {
+          if (currentNumber <= n) {
+            // If currentNumber is prime, add it to the list
+            if (isPrime(currentNumber)) {
+              primeNumbers.push(currentNumber);
+              primeNumbersDiv.innerHTML += `${currentNumber} <br>`;
+            }
+
+            // Increment the number and defer the next check
+            currentNumber++;
+
+            // Use setTimeout to defer the next step until the next event loop cycle
+            setTimeout(addPrimeDeferred, 0);
+          } else {
+            // Once all primes have been calculated, show the alert
+            alert("Prime numbers calculation is finished!");
+          }
+        };
+
+        // Start the deferred execution
+        addPrimeDeferred();
+      };
+
+      // Call the function with n = 10,000 (this will be deferred)
+      displayPrimes(10000);
+    </script>
+  </body>
+</html>
